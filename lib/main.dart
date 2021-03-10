@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/web_page.dart';
 
+import 'dapp_web_page.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -95,15 +97,27 @@ class _MyHomePageState extends State<MyHomePage>
           child: TabBarView(
             controller: _tabController,
             children: tabs.map((e) {
-              return Container(
-                  alignment: Alignment.center,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(CupertinoPageRoute(
-                          builder: (BuildContext context) => WebViewExample()));
+              return Column(
+                children: [
+                  InkWell(
+                    onTap: (){
+                      DAppWebPage.start(context, 'https://www.minidex'
+                          '.com/#/swap', title: 'test');
                     },
-                    child: Text(e, textScaleFactor: 5),
-                  ));
+                    child: Text('go dapp', textScaleFactor: 3),
+                  ),
+                  Container(
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(CupertinoPageRoute(
+                              builder: (BuildContext context) => WebViewExample()));
+                        },
+                        child: Text(e, textScaleFactor: 3),
+                      ))
+                ],
+              )
+                ;
             }).toList(),
           ),
         ),

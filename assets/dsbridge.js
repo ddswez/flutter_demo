@@ -2,6 +2,10 @@ var bridge = {
 default:
 	this,
 	call: function(b, a, c) {
+	console.log('Inject Web3 sync 000000000');
+	console.log('Inject Web3 sync 000000000' + b);
+	console.log('Inject Web3 sync 000000000' + a);
+	console.log('Inject Web3 sync 000000000' + c);
 		var e = "";
 		"function" == typeof a && (c = a, a = {});
 		a = {
@@ -13,7 +17,7 @@ default:
 			a._dscbstub = g
 		}
 		a = JSON.stringify(a);
-		if (window._dsbridge) e = _dsbridge.call(b, a);
+		if (window._dsbridge) e = _dsbridge.postMessage(JSON.stringify({method:"openWeChatApp"}));
 		else if (window._dswk || -1 != navigator.userAgent.indexOf("_dsbridge")) e = prompt("_dsbridge=" + b, a);
 		return JSON.parse(e || "{}").data
 	},
