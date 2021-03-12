@@ -107,8 +107,8 @@ final Set<JavascriptChannel> jsChannels = [
   //       print(message.message);
   //     }),
   JavascriptChannel(
-      name: '_dsbridge',
-      // name: 'FoxApp',
+      // name: '_dsbridge',
+      name: 'FoxApp',
       onMessageReceived: (JavascriptMessage message) {
         showToast('333');
         print('-------------------333');

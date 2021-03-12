@@ -3,9 +3,6 @@ default:
 	this,
 	call: function(b, a, c) {
 	console.log('Inject Web3 sync 000000000');
-	console.log('Inject Web3 sync 000000000' + b);
-	console.log('Inject Web3 sync 000000000' + a);
-	console.log('Inject Web3 sync 000000000' + c);
 		var e = "";
 		"function" == typeof a && (c = a, a = {});
 		a = {
@@ -17,11 +14,13 @@ default:
 			a._dscbstub = g
 		}
 		a = JSON.stringify(a);
-		if (window._dsbridge) e = _dsbridge.postMessage(JSON.stringify({method:"openWeChatApp"}));
+		FoxApp.postMessage(JSON.stringify({method:"fox app test"}));
+		if (window._dsbridge) e = _dsbridge.call(b, a);
 		else if (window._dswk || -1 != navigator.userAgent.indexOf("_dsbridge")) e = prompt("_dsbridge=" + b, a);
 		return JSON.parse(e || "{}").data
 	},
 	register: function(b, a, c) {
+	console.log('Inject Web3 sync register');
 		c = c ? window._dsaf: window._dsf;
 		window._dsInit || (window._dsInit = !0, setTimeout(function() {
 			bridge.call("_dsb.dsinit")
@@ -30,15 +29,18 @@ default:
 		"object" == typeof a ? c._obs[b] = a: c[b] = a
 	},
 	registerAsyn: function(b, a) {
+	console.log('Inject Web3 sync registerAsyn');
 		this.register(b, a, !0)
 	},
 	hasNativeMethod: function(b, a) {
+	console.log('Inject Web3 sync hasNativeMethod');
 		return this.call("_dsb.hasNativeMethod", {
 			name: b,
 			type: a || "all"
 		})
 	},
 	disableJavascriptDialogBlock: function(b) {
+	console.log('Inject Web3 sync disableJavascriptDialogBlock');
 		this.call("_dsb.disableJavascriptDialogBlock", {
 			disable: !1 !== b
 		})
