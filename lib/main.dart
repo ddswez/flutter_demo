@@ -102,12 +102,12 @@ class _MyHomePageState extends State<MyHomePage>
                 children: [
                   InkWell(
                     onTap: (){
-                      // DAppWebPage.start(context,
-                      //     'https://www.minidex.com/#/swap', title: 'test');
+                      DAppWebPage2.start(context,
+                          'https://www.minidex.com/#/swap', title: 'test');
                       // DAppWebPage2.start(context,
                       //     'https://uniswap.biliangwang.com/#/swap', title: 'test');
-                      DAppWebPage2.start(context,
-                          'https://tcard.trister.io/#/home', title: 'test');
+                      // DAppWebPage2.start(context,
+                      //     'https://tcard.trister.io/#/home', title: 'test');
                       // DAppWebPage2.start(context,
                       //     'https://js-eth-sign.surge.sh/', title: 'test');
                     },

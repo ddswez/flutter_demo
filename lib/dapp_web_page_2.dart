@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:oktoast/oktoast.dart';
+import 'package:web3dart/crypto.dart';
+import 'package:web3dart/web3dart.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'js_bridge_bean.dart';
@@ -95,24 +97,47 @@ class _DAppWebPageState extends State<DAppWebPage2> {
     return JavascriptChannel(
         name: 'FoxApp',
         onMessageReceived: (JavascriptMessage message) {
-          print('----------');
           print(message.message);
+          Scaffold.of(context).showSnackBar(
+            SnackBar(content: Text(message.message)),
+          );
+
           var decoded = json.decode(message.message);
-          var jsBridge = JsBridge.fromJson(decoded);
-          if (jsBridge.method.contains("requestAccounts")) {
-
-            Scaffold.of(context).showSnackBar(
-              SnackBar(content: Text(message.message)),
-            );
-
-            _jsBridgeCallBack(_webViewController, context);
+          var jsBridge = JsBridgeBean.fromJson(decoded);
+          switch(jsBridge.method) {
+            case "requestAccounts": {
+              _jsBridgeCallBack(_webViewController, context);
+              break;
+            }
+            case "signMessage":
+            case "signPersonalMessage":
+            case "signTypedMessage": {
+              _jsBridgeCallBack(_webViewController, context);
+              break;
+            }
+            case "signTransaction": {
+              _jsBridgeCallBack(_webViewController, context);
+              break;
+            }
 
           }
 
-          // Scaffold.of(context).showSnackBar(
-          //   SnackBar(content: Text(message.message)),
-          // );
         });
+  }
+
+  /// address: 0x827b6f0a2e165cbd613ab445ba3fd08f47481011
+  /// privateKey: a1bde198def90d8674c201c992eeb4a386459194a1d3bf02f8929b3ce4036159
+  _signMessage(String data) async {
+      if (data == null || data.isEmpty) {
+        return;
+      }
+      Uint8List uint8ListData = hexToBytes(data);
+      EthPrivateKey ethPrivateKey =
+        EthPrivateKey.fromHex('a1bde198def90d8674c201c992eeb4a386459194a1d3bf02f8929b3ce4036159');
+      Uint8List signedData = await ethPrivateKey.signPersonalMessage(uint8ListData);
+
+      String signedDataHex = bytesToHex(signedData);
+
   }
 
   void _jsBridgeCallBack(WebViewController controller, BuildContext context) async {
@@ -121,7 +146,7 @@ class _DAppWebPageState extends State<DAppWebPage2> {
     // await controller.evaluateJavascript(
     //     "Toaster.postMessage('abc');");
     var callback = JsBridgeCallback();
-    callback.result = ["0x076f83c7d56cd6174f5a1d10283b2dc9558e1924"];
+    callback.result = ["0x827b6f0a2e165cbd613ab445ba3fd08f47481011"];
     var j = json.encode(callback);
     print(callback.toJson());
     print(j);
@@ -141,12 +166,11 @@ class _DAppWebPageState extends State<DAppWebPage2> {
 
   Future<String> loadJS() async {
 
-    var givenJS = await rootBundle.loadString('assets/web4.min.js');
+    var givenJS = await rootBundle.loadString('assets/web5.min.js');
     // flutterWebViewPlugin.evalJavascript(givenJS);
     // return givenJS.then((String js) {
     // var dsbridgeJS = await rootBundle.loadString('assets/dsbridge.js');
     // _webViewController.evaluateJavascript(dsbridgeJS);
-    print('------------1234');
     await _webViewController.evaluateJavascript(givenJS);
     // _controller.future.evaluateJavascript(dsbridgeJS);
     // flutterWebViewPlugin.onStateChanged.listen((viewState) async {

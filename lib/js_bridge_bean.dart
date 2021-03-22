@@ -1,21 +1,65 @@
-class JsBridge {
+class JsBridgeBean {
+  JsBridgeParams params;
+  int id;
   String method;
-  dynamic parameters;
-  String callback;
 
-  JsBridge({this.method, this.parameters, this.callback});
+  JsBridgeBean({this.params, this.id, this.method});
 
-  JsBridge.fromJson(Map<String, dynamic> json) {
+  JsBridgeBean.fromJson(Map<String, dynamic> json) {
+    params =
+    json['params'] != null ? new JsBridgeParams.fromJson(json['params']) : null;
+    id = json['id'];
     method = json['method'];
-    parameters = json['parameters'];
-    callback = json['callback'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.params != null) {
+      data['params'] = this.params.toJson();
+    }
+    data['id'] = this.id;
     data['method'] = this.method;
-    data['parameters'] = this.parameters;
-    data['callback'] = this.callback;
+    return data;
+  }
+}
+
+class JsBridgeParams {
+  String signature;
+  String message;
+  String value;
+  String gasPrice;
+  String to;
+  String data;
+  String from;
+
+  JsBridgeParams(
+      {this.signature,
+        this.message,
+        this.value,
+        this.gasPrice,
+        this.to,
+        this.data,
+        this.from});
+
+  JsBridgeParams.fromJson(Map<String, dynamic> json) {
+    signature = json['signature'];
+    message = json['message'];
+    value = json['value'];
+    gasPrice = json['gasPrice'];
+    to = json['to'];
+    data = json['data'];
+    from = json['from'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['signature'] = this.signature;
+    data['message'] = this.message;
+    data['value'] = this.value;
+    data['gasPrice'] = this.gasPrice;
+    data['to'] = this.to;
+    data['data'] = this.data;
+    data['from'] = this.from;
     return data;
   }
 }
