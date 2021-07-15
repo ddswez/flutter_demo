@@ -65,6 +65,7 @@ class _DAppWebPageState extends State<DAppWebPage2> {
           builder: (BuildContext context) {
             return WebView(
               initialUrl: widget.url,
+              // initialUrl: "https://tronscan.org/#/transaction/7850c15384c112208ab52405f5651cff472cacc07b5f2a79f30008b4f6f5c157",
               // initialUrl: 'https://flutter.dev',
               javascriptMode: JavascriptMode.unrestricted,
               debuggingEnabled: true,
